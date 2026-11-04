@@ -1,0 +1,47 @@
+name: Build index
+
+on:
+  schedule:
+    - cron: '17 19 * * *'   # 每天 UTC 19:17（北京时间 03:17）
+  workflow_dispatch:
+    inputs:
+      force:
+        description: '新索引比上一版少一半以上时也写入（填 1）'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-index
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Build index
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          FORCE: ${{ github.event.inputs.force }}
+        run: node scripts/build-index.mjs
+
+      - name: Commit index
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index
+          if git diff --cached --quiet; then
+            echo "索引没有变化"
+            exit 0
+          fi
+          git commit -m "index: $(date -u +'%Y-%m-%d %H:%M') UTC"
+          git push
