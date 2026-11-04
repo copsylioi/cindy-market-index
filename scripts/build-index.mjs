@@ -6,7 +6,8 @@
  *    （按星数分段查询，绕过搜索接口单次最多 1000 条的限制）。
  * 2. 每个仓库读一次 Git Trees 判断类型：ghost.json → 插件（单个或合集），SKILL.md → 技能，都没有 → 资源清单。
  * 3. 用 GraphQL 批量读取 ghost.json 和 SKILL.md（frontmatter 的 name / description）。
- * 4. 按仓库名哈希分 16 片写到 index/；meta.json 记录每片的哈希，插件只下载有变化的分片。
+ * 4. 技能跨仓库去重（名称+简介相同只保留星数最高的仓库那份），每个仓库最多收 100 个，总数最多 5 万个。
+ * 5. 按仓库名哈希分 32 片写到 index/；meta.json 记录每片的哈希，插件只下载有变化的分片。
  *    仓库没有新推送时沿用上一版的结果，所以日常运行只处理有变化的仓库。
  * 环境变量见 README.md。
  */
@@ -26,9 +27,12 @@ const LIMIT = num(env.LIMIT, 0);
 const QUICK = env.QUICK === '1';
 const MAX_BLOBS = num(env.MAX_BLOBS, TOKEN ? Infinity : 30);
 const FORCE = env.FORCE === '1';
-export const SHARDS = 16;
+export const SHARDS = 32;
 const DESC_MAX = 300;
-const MAX_SKILLS_PER_REPO = 3000;
+const SKILL_DESC_MAX = 160;
+const MAX_SKILL_DIRS = num(env.MAX_SKILL_DIRS, 300);          // 每个仓库最多读取的 SKILL.md
+const MAX_SKILLS_PER_REPO = num(env.MAX_SKILLS_PER_REPO, 100); // 每个仓库最多收录的技能
+const MAX_SKILLS = num(env.MAX_SKILLS, 50000);                // 索引里的技能总数上限
 const MAX_SUBS = 40;
 export const SKILL_TOPICS = ['agent-skills', 'agent-skill', 'claude-skills', 'claude-code-skills', 'codex-skills', 'claude-code-plugins', 'antigravity-skills'];
 const CINDY_SEEDS = ['makecindy/cindy-official-plugins', 'otaku-say/cindy-plugins', 'nanaco666/cindy-community-plugins',
@@ -175,7 +179,7 @@ export function analyzeTree(tree) {
   const hasPlugin = pluginDir !== null || subDirs.length > 0;
   return {
     kind: hasPlugin && dirs.length ? 'both' : hasPlugin ? 'plugin' : dirs.length ? 'skill' : 'list',
-    skills: dirs.length, skill_dirs: dirs.slice(0, MAX_SKILLS_PER_REPO), plugin_dir: pluginDir, sub_dirs: subDirs,
+    skills: dirs.length, skill_dirs: dirs.slice(0, MAX_SKILL_DIRS), plugin_dir: pluginDir, sub_dirs: subDirs,
     mk: marketplace, truncated: !!(tree && tree.truncated)
   };
 }
@@ -230,7 +234,7 @@ export function parseManifest(text) {
 export function skillEntry(full, dir, text) {
   const fm = text ? parseFrontmatter(text) : {};
   const e = { r: full, p: dir, n: clip(fm.name || baseName(dir) || full.split('/')[1], 80) };
-  const d = clip(fm.description || (text ? firstParagraph(text) : ''), DESC_MAX);
+  const d = clip(fm.description || (text ? firstParagraph(text) : ''), SKILL_DESC_MAX);
   if (d) e.d = d;
   return e;
 }
@@ -248,6 +252,23 @@ export function shardOf(full) {
   let h = 0x811c9dc5;
   for (const ch of full) { h ^= ch.codePointAt(0); h = Math.imul(h, 0x01000193) >>> 0; }
   return h % SHARDS;
+}
+// 收尾：名称+简介相同的技能只保留星数最高的仓库那份；每个仓库、整个索引都有上限
+export function finalizeSkills(skills, starsOf) {
+  const ord = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
+  const order = skills.slice().sort((a, b) => (starsOf[b.r] || 0) - (starsOf[a.r] || 0) || ord(a.r, b.r) || ord(a.p, b.p));
+  const seen = new Set(), per = new Map(), out = [];
+  for (const k of order) {
+    if (out.length >= MAX_SKILLS) break;
+    const key = String(k.n || '').toLowerCase() + '|' + String(k.d || '').toLowerCase().slice(0, 100);
+    if (seen.has(key)) continue;
+    const c = per.get(k.r) || 0;
+    if (c >= MAX_SKILLS_PER_REPO) continue;
+    seen.add(key);
+    per.set(k.r, c + 1);
+    out.push(k.d && k.d.length > SKILL_DESC_MAX ? Object.assign({}, k, { d: clip(k.d, SKILL_DESC_MAX) }) : k);
+  }
+  return out;
 }
 
 // ---------- 批量读文件：有 Token 走 GraphQL（每批 40 个），否则逐个走 contents 接口 ----------
@@ -403,14 +424,18 @@ async function main() {
   if (prevCount && repos.length < prevCount * 0.5 && !FORCE && !LIMIT) {
     throw new Error('新索引 ' + repos.length + ' 个仓库，比上一版 ' + prevCount + ' 个少一半以上，已中止（确认无误可设 FORCE=1）');
   }
+  const starsOf = Object.create(null);
+  repos.forEach((r) => { starsOf[r.f] = r.s || 0; });
+  const kept = finalizeSkills(skills, starsOf);
+  log('技能：找到 ' + skills.length + ' 个，去重并按每仓 ' + MAX_SKILLS_PER_REPO + ' 个收录 ' + kept.length + ' 个');
   const counts = {
     repos: repos.length, plugins: repos.filter((r) => r.k === 'plugin' || r.k === 'both').length,
     plugin_subs: repos.reduce((s, r) => s + (r.subs ? r.subs.length : 0), 0),
-    skill_repos: repos.filter((r) => r.k === 'skill' || r.k === 'both').length, skills: skills.length,
+    skill_repos: repos.filter((r) => r.k === 'skill' || r.k === 'both').length, skills: kept.length, skills_found: skills.length,
     lists: repos.filter((r) => r.k === 'list').length, dropped
   };
-  await writeIndex(OUT, repos, skills, {
-    params: { min_stars: MIN_STARS, list_min_stars: LIST_MIN_STARS, topics: SKILL_TOPICS }, counts,
+  await writeIndex(OUT, repos, kept, {
+    params: { min_stars: MIN_STARS, list_min_stars: LIST_MIN_STARS, topics: SKILL_TOPICS, max_skills_per_repo: MAX_SKILLS_PER_REPO, max_skills: MAX_SKILLS }, counts,
     stats: Object.assign({}, stats, { seconds: Math.round((Date.now() - t0) / 1000) })
   });
   log('完成：' + JSON.stringify(counts));
