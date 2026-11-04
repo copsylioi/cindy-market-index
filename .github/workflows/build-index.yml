@@ -9,6 +9,11 @@ on:
         description: '新索引比上一版少一半以上时也写入（填 1）'
         required: false
         default: ''
+  push:                     # 爬虫脚本或 workflow 改动后立即重建（索引提交用 GITHUB_TOKEN，不会再触发）
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - '.github/workflows/build-index.yml'
 
 permissions:
   contents: write
