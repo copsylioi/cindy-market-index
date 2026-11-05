@@ -1,6 +1,6 @@
 # cindy-market-index
 
-Cindy「GitHub 插件市场」插件使用的预建索引。GitHub Actions 每天抓取一次 GitHub 上的 Cindy 插件和 Agent Skills，生成 `index/` 目录下的分片 JSON。插件只需读这些文件，不用在每台设备上逐个搜索、读取仓库。
+Cindy「GitHub插件与技能市场」插件使用的预建索引。GitHub Actions 每天抓取一次 GitHub 上的 Cindy 插件和 Agent Skills，生成 `index/` 目录下的分片 JSON。插件只需读这些文件，不用在每台设备上逐个搜索、读取仓库。
 
 ## 收录规则
 
