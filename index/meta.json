@@ -1,6 +1,6 @@
 {
  "v": 1,
- "generated": "2026-11-11T00:14:33.142Z",
+ "generated": "2026-11-12T01:43:27.790Z",
  "params": {
   "min_stars": 20,
   "list_min_stars": 100,
@@ -19,245 +19,245 @@
  "counts": {
   "repos": 3789,
   "plugins": 36,
-  "plugin_subs": 44,
-  "skill_repos": 3608,
-  "skills": 48934,
-  "skills_found": 55016,
-  "lists": 154,
+  "plugin_subs": 46,
+  "skill_repos": 3607,
+  "skills": 48664,
+  "skills_found": 55134,
+  "lists": 155,
   "dropped": 211
  },
  "stats": {
-  "rest": 767,
+  "rest": 823,
   "search": 67,
   "code": 2,
-  "graphql": 431,
+  "graphql": 471,
   "retries": 0,
-  "seconds": 572
+  "seconds": 552
  },
  "shards": [
   {
    "f": "shard-00.json",
-   "h": "c40e3bb35ec7753d",
-   "bytes": 624229,
-   "repos": 130,
-   "skills": 2192
+   "h": "d3aac92d61c4ed6b",
+   "bytes": 628499,
+   "repos": 132,
+   "skills": 2200
   },
   {
    "f": "shard-01.json",
-   "h": "704b39cd29f4a1eb",
-   "bytes": 495011,
-   "repos": 113,
-   "skills": 1714
+   "h": "dc9f053567f2faf6",
+   "bytes": 497338,
+   "repos": 115,
+   "skills": 1728
   },
   {
    "f": "shard-02.json",
-   "h": "de2c5b5796e85915",
-   "bytes": 428193,
-   "repos": 117,
+   "h": "fc3418ee06e7fbc6",
+   "bytes": 428658,
+   "repos": 118,
    "skills": 1418
   },
   {
    "f": "shard-03.json",
-   "h": "4442817e531671c0",
-   "bytes": 513993,
-   "repos": 127,
-   "skills": 1727
+   "h": "865ac2880e587d56",
+   "bytes": 522149,
+   "repos": 128,
+   "skills": 1758
   },
   {
    "f": "shard-04.json",
-   "h": "07bfc42157429eac",
-   "bytes": 390077,
-   "repos": 109,
-   "skills": 1281
+   "h": "77d8aea6c0437ddd",
+   "bytes": 383494,
+   "repos": 107,
+   "skills": 1260
   },
   {
    "f": "shard-05.json",
-   "h": "7f668d34425bfb0f",
-   "bytes": 347754,
+   "h": "50d32e078519f4ca",
+   "bytes": 347755,
    "repos": 104,
    "skills": 1107
   },
   {
    "f": "shard-06.json",
-   "h": "d67103e0369b927e",
-   "bytes": 510241,
-   "repos": 125,
-   "skills": 1661
+   "h": "8098f34a718f2612",
+   "bytes": 513326,
+   "repos": 126,
+   "skills": 1667
   },
   {
    "f": "shard-07.json",
-   "h": "3c7861e7b92aa591",
-   "bytes": 455924,
+   "h": "7692ca28c60f296f",
+   "bytes": 464787,
    "repos": 121,
-   "skills": 1531
+   "skills": 1566
   },
   {
    "f": "shard-08.json",
-   "h": "e93bd4643987efcd",
-   "bytes": 472585,
+   "h": "08a069942e39d303",
+   "bytes": 472962,
    "repos": 124,
-   "skills": 1515
+   "skills": 1517
   },
   {
    "f": "shard-09.json",
-   "h": "18cba069713bc7f5",
+   "h": "7c3e74b752351ab2",
    "bytes": 292406,
    "repos": 129,
    "skills": 915
   },
   {
    "f": "shard-10.json",
-   "h": "e479bd6192b4579d",
-   "bytes": 278500,
-   "repos": 98,
-   "skills": 869
+   "h": "d2b82674e1eed6b2",
+   "bytes": 260446,
+   "repos": 96,
+   "skills": 828
   },
   {
    "f": "shard-11.json",
-   "h": "e289c66cabb0b312",
-   "bytes": 365218,
-   "repos": 118,
-   "skills": 1292
+   "h": "9c83ab8cddb7e7b8",
+   "bytes": 360540,
+   "repos": 116,
+   "skills": 1277
   },
   {
    "f": "shard-12.json",
-   "h": "25c6cdb3891903d0",
-   "bytes": 372679,
-   "repos": 112,
-   "skills": 1217
+   "h": "5a522f2331fc396d",
+   "bytes": 370213,
+   "repos": 111,
+   "skills": 1208
   },
   {
    "f": "shard-13.json",
-   "h": "185bec06080450a7",
-   "bytes": 482947,
-   "repos": 127,
-   "skills": 1604
+   "h": "f1a703fa39797bc3",
+   "bytes": 485788,
+   "repos": 129,
+   "skills": 1612
   },
   {
    "f": "shard-14.json",
-   "h": "2e17cd507d2c5982",
-   "bytes": 372141,
+   "h": "598563602c762e1a",
+   "bytes": 371737,
    "repos": 110,
-   "skills": 1219
+   "skills": 1218
   },
   {
    "f": "shard-15.json",
-   "h": "be737c7c5f3d9b72",
-   "bytes": 469772,
-   "repos": 106,
-   "skills": 1606
+   "h": "673cecace533b5ab",
+   "bytes": 448006,
+   "repos": 103,
+   "skills": 1505
   },
   {
    "f": "shard-16.json",
-   "h": "3539b4ed939e25de",
-   "bytes": 448430,
-   "repos": 123,
+   "h": "7f72946f38258d41",
+   "bytes": 449174,
+   "repos": 125,
    "skills": 1454
   },
   {
    "f": "shard-17.json",
-   "h": "80ba65eb49a4039c",
-   "bytes": 538517,
+   "h": "1a5d622386d09e5c",
+   "bytes": 540395,
    "repos": 115,
-   "skills": 1797
+   "skills": 1805
   },
   {
    "f": "shard-18.json",
-   "h": "9aab05538db614ea",
-   "bytes": 556929,
-   "repos": 119,
-   "skills": 1844
+   "h": "ffc222fb36bb11a7",
+   "bytes": 555843,
+   "repos": 120,
+   "skills": 1834
   },
   {
    "f": "shard-19.json",
-   "h": "81fb2763b6d1014f",
-   "bytes": 641170,
+   "h": "94b427e82712c528",
+   "bytes": 653606,
    "repos": 120,
-   "skills": 2071
+   "skills": 2092
   },
   {
    "f": "shard-20.json",
-   "h": "4cacd9be6bee6764",
-   "bytes": 529561,
+   "h": "8918469c82be9977",
+   "bytes": 529244,
    "repos": 121,
-   "skills": 1691
+   "skills": 1689
   },
   {
    "f": "shard-21.json",
-   "h": "6df96391999c632e",
-   "bytes": 391622,
+   "h": "c1e4872d4b55cee8",
+   "bytes": 401711,
    "repos": 98,
-   "skills": 1375
+   "skills": 1416
   },
   {
    "f": "shard-22.json",
-   "h": "13d14304085474d3",
-   "bytes": 535785,
-   "repos": 121,
-   "skills": 1680
+   "h": "965d3b54718d81df",
+   "bytes": 531628,
+   "repos": 119,
+   "skills": 1670
   },
   {
    "f": "shard-23.json",
-   "h": "fb5db0b32c7b995e",
-   "bytes": 420851,
-   "repos": 120,
-   "skills": 1394
+   "h": "1444a0b418a24072",
+   "bytes": 415908,
+   "repos": 118,
+   "skills": 1379
   },
   {
    "f": "shard-24.json",
-   "h": "f1efa338e706d2fc",
-   "bytes": 472883,
-   "repos": 135,
-   "skills": 1558
+   "h": "1b63c89f00998585",
+   "bytes": 474412,
+   "repos": 137,
+   "skills": 1560
   },
   {
    "f": "shard-25.json",
-   "h": "4b2e0ae7c2332ce5",
-   "bytes": 587861,
+   "h": "09b800000800526d",
+   "bytes": 588323,
    "repos": 133,
-   "skills": 2037
+   "skills": 2039
   },
   {
    "f": "shard-26.json",
-   "h": "7c5e64b543260344",
-   "bytes": 524689,
-   "repos": 113,
-   "skills": 1757
+   "h": "37c49e19aa8d5e49",
+   "bytes": 516700,
+   "repos": 114,
+   "skills": 1737
   },
   {
    "f": "shard-27.json",
-   "h": "6c806047bfef7256",
-   "bytes": 479049,
-   "repos": 128,
-   "skills": 1674
+   "h": "b88f4b27ed1816a5",
+   "bytes": 476626,
+   "repos": 127,
+   "skills": 1666
   },
   {
    "f": "shard-28.json",
-   "h": "f9cdb93bf8aa167a",
-   "bytes": 410017,
-   "repos": 114,
-   "skills": 1300
+   "h": "e8d36ffbada738b3",
+   "bytes": 412716,
+   "repos": 116,
+   "skills": 1307
   },
   {
    "f": "shard-29.json",
-   "h": "a66b1f04644bf9c4",
-   "bytes": 469773,
-   "repos": 107,
-   "skills": 1536
+   "h": "ff68c2e50ccbc84f",
+   "bytes": 468750,
+   "repos": 106,
+   "skills": 1535
   },
   {
    "f": "shard-30.json",
-   "h": "f61e9433ec309eff",
-   "bytes": 393416,
-   "repos": 133,
-   "skills": 1267
+   "h": "14fee3fa5fb5d982",
+   "bytes": 353617,
+   "repos": 131,
+   "skills": 1154
   },
   {
    "f": "shard-31.json",
-   "h": "4942529d9c64c27c",
-   "bytes": 485936,
-   "repos": 119,
-   "skills": 1631
+   "h": "16245c0d141fa65c",
+   "bytes": 461596,
+   "repos": 120,
+   "skills": 1543
   }
  ]
 }
